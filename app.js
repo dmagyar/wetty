@@ -54,7 +54,7 @@ if (opts.sshhost) {
 }
 
 if (opts.sshauth) {
-	sshauth = opts.sshauth
+    sshauth = opts.sshauth
 }
 
 if (opts.sshuser) {
@@ -95,8 +95,10 @@ io.on('connection', function(socket){
     var sshuser = '';
     var request = socket.request;
     console.log((new Date()) + ' Connection accepted.');
-    if (match = request.headers.referer.match('/wetty/ssh/.+$')) {
-        sshuser = match[0].replace('/wetty/ssh/', '') + '@';
+
+    if (match = request.headers.referer.match('/?[^/]+@[^/]+$')) { 
+    	sshuser = match[0].split('@')[0].split('?')[1] + '@';
+    	sshhost = match[0].split('@')[1];
     } else if (globalsshuser) {
         sshuser = globalsshuser + '@';
     }
