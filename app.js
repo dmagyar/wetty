@@ -90,7 +90,7 @@ if (runhttps) {
     });
 }
 
-var io = server(httpserv,{path: '/wetty/socket.io'});
+var io = server(httpserv,{path: '/wetty/socket.io', transport: 'websocket'});
 io.on('connection', function(socket){
     var sshuser = '';
     var request = socket.request;
@@ -104,7 +104,7 @@ io.on('connection', function(socket){
     }
 
     var term;
-    if (process.getuid() == 0) {
+    if (process.getuid() == 999) {
         term = pty.spawn('/bin/login', [], {
             name: 'xterm-256color',
             cols: 80,
